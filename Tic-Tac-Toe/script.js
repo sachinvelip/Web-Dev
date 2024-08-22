@@ -71,6 +71,7 @@ function endGame() {
 }
 
 function restartGame() {
+  count=0;
   winner.innerHTML = "";
   restart.style.display = "none";
   boxes.forEach((box) => {
