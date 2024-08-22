@@ -13,22 +13,28 @@ const restartBtn = document.querySelector("#restart-btn");
 let score = 0;
 let cnt = 1;
 let currentQuestion = {};
+let id;
+let time=0.5*60;
 
 function startQuiz() {
+  id=setInterval(getTime,1000);
   nextQuestions();
   nextBtn.addEventListener("click",nextQuestions);
   restartBtn.addEventListener('click',restartQuiz)
 }
 
 function stopQuiz(){
+  clearInterval(id);
   quest.innerHTML = "Quiz Completed!";
   option.style.display = "none";
   nextBtn.style.display = 'none';
+  scorecard.innerHTML=`You attempted ${cnt-2}/5`
   restartBtn.style.display = 'block';
   count.innerHTML = `Final Score: ${score}/5`;
 }
 
 function restartQuiz(){
+  time=0.5*60;
   score = 0;
   cnt = 1;
   scorecard.innerHTML = `Score ${score}/5`;
@@ -41,13 +47,14 @@ function randomQuestions() {
   return Math.floor(Math.random() * questions.length - 1);
 }
 
+
 function nextQuestions() {
   if(cnt>5){
     stopQuiz();
     return;
   }
   resetState();
-  currentQuestion = questions[randomQuestions()];
+  currentQuestion = questions[randomQuestions()];  
   count.innerHTML = `Question ${cnt++}/5`;
   quest.innerHTML = `${currentQuestion.question}`;
   option.children[0].innerHTML = `A. ${currentQuestion.A}`;
@@ -56,6 +63,7 @@ function nextQuestions() {
   option.children[3].innerHTML = `D. ${currentQuestion.D}`;
   enableButtons();
 }
+
 
 function resetState() {
   nextBtn.style.display = "none";
@@ -66,11 +74,13 @@ function resetState() {
   });
 }
 
+
 function enableButtons() {
   buttons.forEach((button) => {
     button.addEventListener("click", selectAnswer);
   });
 }
+
 
 function selectAnswer(e) {
   const selectedButton = e.target;
@@ -104,4 +114,20 @@ function selectAnswer(e) {
   nextBtn.style.display = "block";
 }
 
+//timer
+function getTime(){
+  if(time===0){
+    stopQuiz();
+  }
+  let minutes=Math.floor(time/60);
+  let seconds=time%60;
+  seconds=(seconds<10)?'0'+seconds:seconds;
+  timer.innerHTML=`Time Left ${minutes}:${seconds}`;
+  time--;
+}
+
+
 startQuiz();
+
+
+  

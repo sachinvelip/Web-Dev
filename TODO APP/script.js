@@ -74,7 +74,7 @@ function deleteTask() {
 
 function doneTask() {
   const date = new Date();
-  let currentDay = String(date.getDate()).padStart(2, "0");
+  let currentDay = String(date.getDate()).padStart(2, "0");//if day <10 then 09,08...
   let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
   let currentYear = date.getFullYear();
   let currentDate = `${currentDay}/${currentMonth}/${currentYear}`;
